@@ -1,0 +1,13 @@
+﻿<Window x:Class="PoeItemAnalyzer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PoeItemAnalyzer"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="506.653" Width="708.468">
+    <Grid Margin="10,0,0,10" HorizontalAlignment="Left" Width="680" Height="456" VerticalAlignment="Bottom">
+        <Label x:Name="DisplayArea" Margin="0,0,0,33">(Waiting)</Label>
+        <Button x:Name="openLogWindow" Content="Open Log Window" Margin="0,428,0,0" Click="openLogWindow_Click" Height="28" VerticalAlignment="Top" HorizontalAlignment="Left" Width="119"/>
+    </Grid>
+</Window>
