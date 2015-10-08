@@ -48,10 +48,7 @@ namespace PoeItemAnalyzer
                     return;
                 }
 
-                var item = new LootItemViewModel
-                {
-                    RawItemText = clippedText
-                };
+                var item = new LootItemViewModel(clippedText);
 
                 items.Add(item);
 

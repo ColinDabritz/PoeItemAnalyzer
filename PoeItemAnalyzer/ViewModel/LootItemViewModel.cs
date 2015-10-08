@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PoeItemAnalyzer.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,18 @@ namespace PoeItemAnalyzer.ViewModel
 {
     public class LootItemViewModel
     {
-        public string RawItemText { get; set; }
+        private LootItem Item { get; }
+
+        public LootItemViewModel(string rawItemText)
+        {
+            Item = new LootItem(rawItemText);
+        }
+
+        public LootItemViewModel(LootItem item)
+        {
+            Item = item;
+        }
+
+        public string RawItemText => Item.RawItemText;
     }
 }

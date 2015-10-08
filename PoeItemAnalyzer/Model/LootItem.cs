@@ -8,6 +8,11 @@ namespace PoeItemAnalyzer.Model
 {
     public class LootItem
     {
-        public string RawItemText { get; set; }
+        public LootItem(string rawItemText)
+        {
+            RawItemText = rawItemText;
+        }
+
+        public string RawItemText { get; }
     }
 }
