@@ -14,7 +14,6 @@ namespace PoeItemAnalyzer
 
         public ClipboardManager(Window windowSource)
         {
-            // TODO: after on source initialized only? Maybe check for null and throw here?
             HwndSource source = PresentationSource.FromVisual(windowSource) as HwndSource;
             if(source == null)
             {
@@ -32,9 +31,7 @@ namespace PoeItemAnalyzer
             NativeMethods.AddClipboardFormatListener(windowHandle);
         }
 
-        // TODO: Bindable list?
-
-        void OnClipboardChanged()
+        private void OnClipboardChanged()
         {
             ClipboardChanged?.Invoke(this, EventArgs.Empty);
         }
