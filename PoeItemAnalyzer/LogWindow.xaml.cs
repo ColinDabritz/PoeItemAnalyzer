@@ -41,6 +41,10 @@ namespace PoeItemAnalyzer
         {
             if (Clipboard.ContainsText())
             {
+                // TODO: Can apparently throw
+                //     System.Runtime.InteropServices.COMException
+                //     {"OpenClipboard Failed (Exception from HRESULT: 0x800401D0 (CLIPBRD_E_CANT_OPEN))"}
+                // was copying text real quick. Maybe this is the STA apartment thing?
                 var clippedText = Clipboard.GetText().Trim();
 
                 if(string.IsNullOrWhiteSpace(clippedText))

@@ -4,17 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PoeItemAnalyzer"
+        xmlns:control="clr-namespace:PoeItemAnalyzer.Controls"
         mc:Ignorable="d"
         Title="LogWindow" Height="750" Width="750">
-    <Grid Margin="10">
-        <ListBox Name="itemListbox">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Border BorderThickness="1" BorderBrush="Black">
-                        <TextBlock Text="{Binding RawItemText}" />
-                    </Border>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-    </Grid>
+    <ListBox Margin="10" Name="itemListbox">
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+                <control:ItemDisplay ></control:ItemDisplay>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
 </Window>

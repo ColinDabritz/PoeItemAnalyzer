@@ -55,8 +55,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\ItemDisplay.xaml.cs">
+      <DependentUpon>ItemDisplay.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\ItemLogViewModel.cs" />
     <Compile Include="ViewModel\LootItemViewModel.cs" />
+    <Page Include="Controls\ItemDisplay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LogWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
