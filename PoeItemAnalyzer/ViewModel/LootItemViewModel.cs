@@ -22,5 +22,7 @@ namespace PoeItemAnalyzer.ViewModel
         }
 
         public string RawItemText => Item.RawItemText;
+
+        public string[] RawSections => Item.RawSections;
     }
 }

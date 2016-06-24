@@ -11,8 +11,14 @@ namespace PoeItemAnalyzer.Model
         public LootItem(string rawItemText)
         {
             RawItemText = rawItemText;
-        }
 
+            var sectionSeparators = new string[] { $"\r\n--------\r\n" };
+            
+            RawSections = RawItemText.Split(sectionSeparators, StringSplitOptions.RemoveEmptyEntries);
+        }
+        
         public string RawItemText { get; }
+
+        public string[] RawSections { get; }
     }
 }

@@ -25,5 +25,10 @@ namespace PoeItemAnalyzer.Controls
         {
             InitializeComponent();
         }
+
+        private void CopyRawText_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO: Copy from item, put in clipboard.
+        }
     }
 }

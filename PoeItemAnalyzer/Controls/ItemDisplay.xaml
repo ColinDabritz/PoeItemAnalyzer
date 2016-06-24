@@ -6,9 +6,37 @@
              xmlns:local="clr-namespace:PoeItemAnalyzer.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel>
-        <Border BorderThickness="1" BorderBrush="Black">
-            <TextBlock Text="{Binding RawItemText}" />
-        </Border>
-    </StackPanel>
+
+    <UserControl.Resources>
+        <!-- Causes Separator to only sepparate between items -->
+        <!-- based on https://stackoverflow.com/questions/22704791/listbox-separator-in-wpf-and-omission-of-final-separator -->
+        <Style TargetType="Separator">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource PreviousData}}" Value="{x:Null}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <UserControl.ContextMenu>
+        <ContextMenu>
+            <MenuItem Header="Copy raw text" Click="CopyRawText_Click" />
+        </ContextMenu>
+    </UserControl.ContextMenu>
+
+    <Border BorderThickness="1" BorderBrush="Black">
+        <ItemsControl ItemsSource="{Binding RawSections}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <Separator />
+                        <Border BorderThickness="1" BorderBrush="Black">
+                            <TextBlock Text="{Binding}" />
+                        </Border>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Border>
 </UserControl>
