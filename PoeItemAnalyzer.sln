@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoeItemAnalyzer", "PoeItemA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfClipboardMonitor", "WpfClipboardMonitor\WpfClipboardMonitor.csproj", "{9D38DFDC-9EA0-4F5D-8E7D-2E52C415A2DD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPanel", "TestPanel\TestPanel.csproj", "{5025805D-53E7-4D3B-86F7-78087F91F346}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9D38DFDC-9EA0-4F5D-8E7D-2E52C415A2DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D38DFDC-9EA0-4F5D-8E7D-2E52C415A2DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D38DFDC-9EA0-4F5D-8E7D-2E52C415A2DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5025805D-53E7-4D3B-86F7-78087F91F346}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5025805D-53E7-4D3B-86F7-78087F91F346}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5025805D-53E7-4D3B-86F7-78087F91F346}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5025805D-53E7-4D3B-86F7-78087F91F346}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
