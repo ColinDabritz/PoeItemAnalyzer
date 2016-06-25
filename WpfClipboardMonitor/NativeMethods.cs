@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace PoeItemAnalyzer
+namespace WpfClipboardMonitor
 {
     internal static class NativeMethods
     {

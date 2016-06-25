@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfClipboardMonitor;
 
 namespace PoeItemAnalyzer
 {
@@ -33,7 +34,7 @@ namespace PoeItemAnalyzer
         {
             base.OnSourceInitialized(e);
 
-            var windowClipboardManager = new ClipboardManager(this);
+            var windowClipboardManager = new WindowClipboard(this);
             windowClipboardManager.ClipboardChanged += ClipboardChanged;
         }
 
@@ -44,7 +45,7 @@ namespace PoeItemAnalyzer
                 // TODO: Can apparently throw
                 //     System.Runtime.InteropServices.COMException
                 //     {"OpenClipboard Failed (Exception from HRESULT: 0x800401D0 (CLIPBRD_E_CANT_OPEN))"}
-                // was copying text real quick. Maybe this is the STA apartment thing?
+                // See issue: https://github.com/ColinDabritz/PoeItemAnalyzer/issues/1
                 var clippedText = Clipboard.GetText().Trim();
 
                 if(string.IsNullOrWhiteSpace(clippedText))

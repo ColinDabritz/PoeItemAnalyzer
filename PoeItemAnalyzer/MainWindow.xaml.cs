@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfClipboardMonitor;
 
 namespace PoeItemAnalyzer
 {
@@ -30,8 +31,8 @@ namespace PoeItemAnalyzer
         {
             base.OnSourceInitialized(e);
 
-            var windowClipboardManager = new ClipboardManager(this);
-            windowClipboardManager.ClipboardChanged += ClipboardChanged;
+            // var windowClipboardManager = new WindowClipboard(this);
+            // windowClipboardManager.ClipboardChanged += ClipboardChanged;
         }
 
         private void ClipboardChanged(object sender, EventArgs e)
