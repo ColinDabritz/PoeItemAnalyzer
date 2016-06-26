@@ -35,18 +35,15 @@ namespace PoeItemAnalyzer
             base.OnSourceInitialized(e);
 
             var windowClipboardManager = new WindowClipboard(this);
-            windowClipboardManager.ClipboardChanged += ClipboardChanged;
+            
+            windowClipboardManager.ClipboardTextChanged += ClipboardTextChanged;
         }
-
-        private void ClipboardChanged(object sender, EventArgs e)
+        
+        private void ClipboardTextChanged(object sender, string text)
         {
             if (Clipboard.ContainsText())
             {
-                // TODO: Can apparently throw
-                //     System.Runtime.InteropServices.COMException
-                //     {"OpenClipboard Failed (Exception from HRESULT: 0x800401D0 (CLIPBRD_E_CANT_OPEN))"}
-                // See issue: https://github.com/ColinDabritz/PoeItemAnalyzer/issues/1
-                var clippedText = Clipboard.GetText().Trim();
+                var clippedText = text.Trim();
 
                 if(string.IsNullOrWhiteSpace(clippedText))
                 {

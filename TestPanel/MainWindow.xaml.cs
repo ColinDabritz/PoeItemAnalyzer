@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -49,13 +50,31 @@ namespace TestPanel
         }
 
         public void WriteToClipboard()
-        {   
-            Clipboard.SetText("SPAMMING THE CLIPBOARD FOR TESTING - TestPanel Window <3");
+        {
+            try
+            {
+                Clipboard.SetText("SPAMMING THE CLIPBOARD FOR TESTING - TestPanel Window <3");
+            }
+            catch (ExternalException)
+            {
+                Console.WriteLine("Write encountered external exception.");
+                // Supress, we are testing OTHER applications..
+            }
         }
 
         public void ReadFromClipboard()
         {
-            Clipboard.GetText();
+            try
+            {
+                Clipboard.GetText();
+            }
+            catch (ExternalException)
+            {
+                Console.WriteLine("Read encountered external exception.");
+                // Supress, we are testing OTHER applications..
+            }
+            
+            
         }
     }
 }
