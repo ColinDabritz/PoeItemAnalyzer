@@ -35,28 +35,27 @@ namespace PoeItemAnalyzer
             base.OnSourceInitialized(e);
 
             var windowClipboardManager = new WindowClipboard(this);
-            
+
             windowClipboardManager.ClipboardTextChanged += ClipboardTextChanged;
         }
-        
-        private void ClipboardTextChanged(object sender, string text)
+
+        private async void ClipboardTextChanged(object sender, string text)
         {
-            if (Clipboard.ContainsText())
+            var clippedText = text.Trim();
+
+            if (string.IsNullOrWhiteSpace(clippedText))
             {
-                var clippedText = text.Trim();
-
-                if(string.IsNullOrWhiteSpace(clippedText))
-                {
-                    return;
-                }
-
-                var item = new LootItemViewModel(clippedText);
-
-                items.Add(item);
-
-                itemListbox.Items.MoveCurrentToLast();
-                itemListbox.ScrollIntoView(itemListbox.Items.CurrentItem);
+                return;
             }
+
+            var item = new LootItemViewModel(clippedText);
+
+            items.Add(item);
+
+            itemListbox.Items.MoveCurrentToLast();
+            itemListbox.ScrollIntoView(itemListbox.Items.CurrentItem);
+
+            await item.PopulatePriceInfoFromWeb();
         }
     }
 }

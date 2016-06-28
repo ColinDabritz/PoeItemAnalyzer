@@ -10,33 +10,46 @@
     <UserControl.Resources>
         <!-- Causes Separator to only sepparate between items -->
         <!-- based on https://stackoverflow.com/questions/22704791/listbox-separator-in-wpf-and-omission-of-final-separator -->
-        <Style TargetType="Separator">
+        <Style x:Key="JoinSeparator" TargetType="Separator">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource PreviousData}}" Value="{x:Null}">
                     <Setter Property="Visibility" Value="Collapsed" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
     </UserControl.Resources>
 
     <UserControl.ContextMenu>
         <ContextMenu>
             <MenuItem Header="Copy raw text" Click="CopyRawText_Click" />
+            <MenuItem Header="Lookup Price" Click="LookupPrice_Click" />
         </ContextMenu>
     </UserControl.ContextMenu>
 
-    <Border BorderThickness="1" BorderBrush="Black">
-        <ItemsControl ItemsSource="{Binding RawSections}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <Separator />
-                        <Border BorderThickness="1" BorderBrush="Black">
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Border BorderThickness="1" BorderBrush="Black" Padding="5">
+            <ItemsControl Grid.Row="0" ItemsSource="{Binding RawSections}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <Separator Style="{StaticResource JoinSeparator}" />
                             <TextBlock Text="{Binding}" />
-                        </Border>
-                    </StackPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </Border>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+        <Border Grid.Row="1" BorderThickness="1" BorderBrush="Black" Padding="5">
+            <TextBlock Text="{Binding ItemPriceFromWeb}" />
+        </Border>
+    </Grid>
+
+
 </UserControl>

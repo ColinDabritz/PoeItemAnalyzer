@@ -31,16 +31,13 @@ namespace PoeItemAnalyzer
         {
             base.OnSourceInitialized(e);
 
-            // var windowClipboardManager = new WindowClipboard(this);
-            // windowClipboardManager.ClipboardChanged += ClipboardChanged;
+            var windowClipboardManager = new WindowClipboard(this);
+            windowClipboardManager.ClipboardTextChanged += ClipboardTextChanged;
         }
 
-        private void ClipboardChanged(object sender, EventArgs e)
+        private void ClipboardTextChanged(object sender, string text)
         {
-            if (Clipboard.ContainsText())
-            {
-                DisplayArea.Content = Clipboard.GetText();
-            }
+            DisplayArea.Content = text;
         }
 
         private void openLogWindow_Click(object sender, RoutedEventArgs e)
