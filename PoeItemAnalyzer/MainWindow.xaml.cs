@@ -31,8 +31,8 @@ namespace PoeItemAnalyzer
         {
             base.OnSourceInitialized(e);
 
-            var windowClipboardManager = new WindowClipboard(this);
-            windowClipboardManager.ClipboardTextChanged += ClipboardTextChanged;
+            var clipboardMonitor = new WindowClipboardMonitor(this);
+            clipboardMonitor.ClipboardTextChanged += ClipboardTextChanged;
         }
 
         private void ClipboardTextChanged(object sender, string text)
