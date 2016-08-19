@@ -8,8 +8,6 @@ namespace WpfClipboardMonitor
 {
     public class WindowClipboardMonitor
     {
-        private static readonly IntPtr Win32MessageHandlerSuccess = IntPtr.Zero;
-
         public event EventHandler<string> ClipboardTextChanged;
 
         public WindowClipboardMonitor(Window window)
@@ -41,23 +39,52 @@ namespace WpfClipboardMonitor
         private void RegisterForClipboardWin32Messages(Window windowSource)
         {
             IntPtr windowHandleForInterop = new WindowInteropHelper(windowSource).Handle;
-            NativeMethods.AddClipboardFormatListener(windowHandleForInterop);
+            NativeInterop.AddClipboardFormatListener(windowHandleForInterop);
         }
 
-        private IntPtr Win32InteropMessageHandler(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool messageHandled)
+        private IntPtr Win32InteropMessageHandler(IntPtr windowHandle, int messageCode, IntPtr wParam, IntPtr lParam, ref bool messageHandled)
         {
-            if (msg == NativeMethods.WM_CLIPBOARDUPDATE)
+            if (messageCode == NativeInterop.ClipboardUpdateWindowMessageCode)
             {
                 OnClipboardChanged();
+
                 messageHandled = true;
+                return NativeInterop.HandledClipboardUpdateReturnCode;
             }
 
-            return Win32MessageHandlerSuccess;
+            return NativeInterop.NoMessageHandledReturnCode;
         }
 
         private void OnClipboardChanged()
         {
-            PerformActionWithRetryAndSupressComExceptions(ProcessClipboardText);
+            PerformRetryableComOperation();
+        }
+
+        private void PerformRetryableComOperation()
+        {
+            const int maxAttempts = 10;
+            int currentAttemptNumber = 1;
+            
+            while (currentAttemptNumber <= maxAttempts)
+            {
+                try
+                {
+                    ProcessClipboardText();
+                    return;
+                }
+                catch (COMException ex) when (ex.ErrorCode == NativeInterop.UnableToOpenClipboardComErrorCode)
+                {
+                    SleepUntilNextRetry(currentAttemptNumber);
+                }
+                currentAttemptNumber++;
+            }
+        }
+
+        private void SleepUntilNextRetry(int attemptNumber)
+        {
+            const int sleepDurationMilliseconds = 50;
+            var timeUntilNextRetry = TimeSpan.FromMilliseconds(sleepDurationMilliseconds);
+            Thread.Sleep(timeUntilNextRetry);
         }
 
         private void ProcessClipboardText()
@@ -67,30 +94,5 @@ namespace WpfClipboardMonitor
                 ClipboardTextChanged?.Invoke(this, Clipboard.GetText());
             }
         }
-
-        private void PerformActionWithRetryAndSupressComExceptions(Action action)
-        {
-            const int maxAttempts = 10;
-            const int baseSleepDurationMilliseconds = 2;
-
-            int sleepDurationMilliseconds = baseSleepDurationMilliseconds;
-            int remainingAttempts = maxAttempts;
-
-            while (remainingAttempts > 0)
-            {
-                try
-                {
-                    action();
-                    return;
-                }
-                catch (COMException)
-                {
-                    Thread.Sleep(TimeSpan.FromMilliseconds(sleepDurationMilliseconds));
-                    sleepDurationMilliseconds *= 2;
-                    remainingAttempts--;
-                }
-            }
-        }
-
     }
 }
