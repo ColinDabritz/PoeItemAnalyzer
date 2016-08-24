@@ -6,42 +6,67 @@ using System.Windows.Interop;
 
 namespace WpfClipboardMonitor
 {
-    public class WindowClipboardMonitor
+    public class WindowClipboardMonitor : IDisposable
     {
         public event EventHandler<string> ClipboardTextChanged;
 
-        public WindowClipboardMonitor(Window window)
+        HwndSource Win32InteropSource;
+        IntPtr WindowInteropHandle;
+        private bool disposed = false;
+
+        public WindowClipboardMonitor(Window clipboardWindow)
         {
-            RegisterWindowToRecieveWin32Messages(window);
-            RegisterForClipboardWin32Messages(window);
+            InitializeInteropSource(clipboardWindow);
+            InitializeWindowInteropHandle(clipboardWindow);
+
+            StartHandlingWin32Messages();
+            AddListenerForClipboardWin32Messages();
         }
 
-        private void RegisterWindowToRecieveWin32Messages(Window window)
+        private void InitializeInteropSource(Window clipboardWindow)
         {
-            var presentationSource = PresentationSource.FromVisual(window);
-            HwndSource Win32InteropSource = presentationSource as HwndSource;
+            var presentationSource = PresentationSource.FromVisual(clipboardWindow);
+            Win32InteropSource = presentationSource as HwndSource;
 
             if (Win32InteropSource == null)
             {
                 throw new ArgumentException(
-                    $"{nameof(window)} must be initialized before using the {nameof(WindowClipboardMonitor)}. Use the Window's OnSourceInitialized() handler if possible, or a later point in the window lifecycle."
-                    , nameof(window));
+                    $"Window must be initialized before using the {nameof(WindowClipboardMonitor)}. Use the window's OnSourceInitialized() handler if possible, or a later point in the window lifecycle."
+                    , nameof(clipboardWindow));
             }
-
-            RegisterForAllWin32Messages(Win32InteropSource);
         }
 
-        private void RegisterForAllWin32Messages(HwndSource win32InteropSource)
+        private void InitializeWindowInteropHandle(Window clipboardWindow)
         {
-            win32InteropSource.AddHook(Win32InteropMessageHandler);
+            WindowInteropHandle = new WindowInteropHelper(clipboardWindow).Handle;
+            if (WindowInteropHandle == null)
+            {
+                throw new ArgumentException(
+                    $"{nameof(clipboardWindow)} must be initialized before using the {nameof(WindowClipboardMonitor)}. Use the Window's OnSourceInitialized() handler if possible, or a later point in the window lifecycle."
+                    , nameof(clipboardWindow));
+            }
         }
 
-        private void RegisterForClipboardWin32Messages(Window windowSource)
+        private void StartHandlingWin32Messages()
         {
-            IntPtr windowHandleForInterop = new WindowInteropHelper(windowSource).Handle;
-            NativeInterop.AddClipboardFormatListener(windowHandleForInterop);
+            Win32InteropSource.AddHook(Win32InteropMessageHandler);
         }
 
+        private void StopHandlingWin32Messages()
+        {
+            Win32InteropSource.RemoveHook(Win32InteropMessageHandler);
+        }
+
+        private void AddListenerForClipboardWin32Messages()
+        {
+            NativeInterop.AddClipboardFormatListener(WindowInteropHandle);
+        }
+
+        private void RemoveListenerForClipboardWin32Messages()
+        {
+            NativeInterop.RemoveClipboardFormatListener(WindowInteropHandle);
+        }
+        
         private IntPtr Win32InteropMessageHandler(IntPtr windowHandle, int messageCode, IntPtr wParam, IntPtr lParam, ref bool messageHandled)
         {
             if (messageCode == NativeInterop.ClipboardUpdateWindowMessageCode)
@@ -57,10 +82,10 @@ namespace WpfClipboardMonitor
 
         private void OnClipboardChanged()
         {
-            PerformRetryableComOperation();
+            ProcessClipboardTextWithRetry();
         }
 
-        private void PerformRetryableComOperation()
+        private void ProcessClipboardTextWithRetry()
         {
             const int maxAttempts = 10;
             int currentAttemptNumber = 1;
@@ -80,7 +105,7 @@ namespace WpfClipboardMonitor
             }
         }
 
-        private void SleepUntilNextRetry(int attemptNumber)
+        private void SleepUntilNextRetry(int currentAttemptNumber)
         {
             const int sleepDurationMilliseconds = 50;
             var timeUntilNextRetry = TimeSpan.FromMilliseconds(sleepDurationMilliseconds);
@@ -93,6 +118,38 @@ namespace WpfClipboardMonitor
             {
                 ClipboardTextChanged?.Invoke(this, Clipboard.GetText());
             }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+            {
+                return;
+            }
+
+            if(disposing)
+            {
+
+            }
+
+            RemoveListenerForClipboardWin32Messages();
+            StopHandlingWin32Messages();
+
+            Win32InteropSource = null;
+            WindowInteropHandle = IntPtr.Zero;
+
+            disposed = true;
+        }
+
+        ~WindowClipboardMonitor()
+        {
+            Dispose(false);
         }
     }
 }
