@@ -122,20 +122,19 @@ namespace WpfClipboardMonitor
 
         public void Dispose()
         {
-            Dispose(true);
+            ReleaseResources();
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
+        protected virtual void ReleaseResources()
         {
             if (disposed)
             {
                 return;
             }
-
-            if(disposing)
+            else
             {
-
+                disposed = true;
             }
 
             RemoveListenerForClipboardWin32Messages();
@@ -143,13 +142,11 @@ namespace WpfClipboardMonitor
 
             Win32InteropSource = null;
             WindowInteropHandle = IntPtr.Zero;
-
-            disposed = true;
         }
 
         ~WindowClipboardMonitor()
         {
-            Dispose(false);
+            ReleaseResources();
         }
     }
 }
