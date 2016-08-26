@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PoeItemAnalyzer.Model
+namespace ItemModel
 {
     public class LootItem
     {
@@ -13,10 +13,10 @@ namespace PoeItemAnalyzer.Model
             RawItemText = rawItemText;
 
             var sectionSeparators = new string[] { $"\r\n--------\r\n" };
-            
+
             RawSections = RawItemText.Split(sectionSeparators, StringSplitOptions.RemoveEmptyEntries);
         }
-        
+
         public string RawItemText { get; }
 
         public string[] RawSections { get; }

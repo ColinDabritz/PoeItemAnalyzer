@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfClipboardMonitor", "WpfC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPanel", "TestPanel\TestPanel.csproj", "{5025805D-53E7-4D3B-86F7-78087F91F346}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItemModel", "ItemLibrary\ItemModel.csproj", "{686291ED-57A0-468E-8B07-95CC530331B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItemModelUnitTests", "ItemModelUnitTests\ItemModelUnitTests.csproj", "{CF85D327-9D5F-4198-BA2F-EEB6AC551F9F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{5025805D-53E7-4D3B-86F7-78087F91F346}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5025805D-53E7-4D3B-86F7-78087F91F346}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5025805D-53E7-4D3B-86F7-78087F91F346}.Release|Any CPU.Build.0 = Release|Any CPU
+		{686291ED-57A0-468E-8B07-95CC530331B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{686291ED-57A0-468E-8B07-95CC530331B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{686291ED-57A0-468E-8B07-95CC530331B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{686291ED-57A0-468E-8B07-95CC530331B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF85D327-9D5F-4198-BA2F-EEB6AC551F9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF85D327-9D5F-4198-BA2F-EEB6AC551F9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF85D327-9D5F-4198-BA2F-EEB6AC551F9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF85D327-9D5F-4198-BA2F-EEB6AC551F9F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

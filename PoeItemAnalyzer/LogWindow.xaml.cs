@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfClipboardMonitor;
+using System.ComponentModel;
 
 namespace PoeItemAnalyzer
 {
@@ -22,6 +23,8 @@ namespace PoeItemAnalyzer
     public partial class LogWindow : Window
     {
         ItemLogViewModel items = new ItemLogViewModel();
+
+        WindowClipboardMonitor clipboardMonitor;
 
         public LogWindow()
         {
@@ -34,8 +37,7 @@ namespace PoeItemAnalyzer
         {
             base.OnSourceInitialized(e);
 
-            var clipboardMonitor = new WindowClipboardMonitor(this);
-
+            clipboardMonitor = new WindowClipboardMonitor(this);
             clipboardMonitor.ClipboardTextChanged += ClipboardTextChanged;
         }
 
@@ -56,6 +58,13 @@ namespace PoeItemAnalyzer
             itemListbox.ScrollIntoView(itemListbox.Items.CurrentItem);
 
             await item.PopulatePriceInfoFromWeb();
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            clipboardMonitor.ClipboardTextChanged -= ClipboardTextChanged;
+            clipboardMonitor.Dispose();
         }
     }
 }

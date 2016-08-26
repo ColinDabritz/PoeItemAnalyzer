@@ -1,4 +1,4 @@
-﻿using PoeItemAnalyzer.Model;
+﻿using ItemModel;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -28,10 +28,10 @@ namespace PoeItemAnalyzer.ViewModel
         public async Task PopulatePriceInfoFromWeb()
         {
             ItemPriceFromWeb = "- retrieving item price information... -";
+            
+            // var result = await ItemPriceLookupModel.GetItemPriceFromWeb(Item);
 
-            var result = await ItemPriceLookupModel.GetItemPriceFromWeb(Item);
-
-            ItemPriceFromWeb = result;            
+            ItemPriceFromWeb = await Task.FromResult("NO WEB FOR YOU"); // result;
         }
         
         public string RawItemText => Item.RawItemText;
